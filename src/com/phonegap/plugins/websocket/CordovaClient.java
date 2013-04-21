@@ -38,10 +38,6 @@ public class CordovaClient extends WebSocketClient {
     sendResult("", "close", PluginResult.Status.OK);
   }
 
-  public void setCallbackContext(CallbackContext callbackContext) {
-    this.callbackContext = callbackContext;
-  }
-
   @Override
   public void onError(Exception ex) {
     sendResult(ex.getMessage(), "error", PluginResult.Status.ERROR);
