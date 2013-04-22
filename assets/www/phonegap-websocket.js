@@ -24,11 +24,9 @@
 
   WebSocket.prototype = {
     send: function (data) {
-      if (this.readyState == WebSocket.CONNECTING) {
-        throw "INVALID_STATE_ERR: Web Socket connection has not been established";
+      if (this.readyState == WebSocket.OPEN) {
+        cordova.exec(function () {}, function () {}, "WebSocket", "send", [data]);
       }
-
-      cordova.exec(function () {}, function () {}, "WebSocket", "send", [data]);
     },
 
     close: function () {
