@@ -13,43 +13,42 @@ import org.json.JSONException;
  * WebSocket Cordova Plugin
  */
 public class WebSocket extends CordovaPlugin {
-	
-	// actions
-	private static final String ACTION_CONNECT = "connect";
-	private static final String ACTION_SEND = "send";
-	private static final String ACTION_CLOSE = "close";
-	
+
+  // actions
+  private static final String ACTION_CONNECT = "connect";
+  private static final String ACTION_SEND = "send";
+  private static final String ACTION_CLOSE = "close";
   private CordovaClient socketClient;
   private URI uri;
 
   @Override
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-  	final WebSocket plugin = this;
-  	
+    final WebSocket plugin = this;
+
     if (ACTION_CONNECT.equals(action)) {
       final String url = args.getString(0);
       cordova.getThreadPool().execute(new Runnable() {
-      	public void run() {
-      		plugin.connect(url, callbackContext);
-      	}
+        public void run() {
+          plugin.connect(url, callbackContext);
+        }
       });
       return true;
     }
     else if (ACTION_SEND.equals(action)) {
       final String data = args.getString(0);
       cordova.getThreadPool().execute(new Runnable() {
-      	public void run() {
-      		plugin.send(data);
-      	}
+        public void run() {
+          plugin.send(data);
+        }
       });
       return true;
     }
     else if (ACTION_CLOSE.equals(action)) {
-    	cordova.getThreadPool().execute(new Runnable() {
-    		public void run() {
-    			plugin.socketClient.close();
-    		}
-    	});
+      cordova.getThreadPool().execute(new Runnable() {
+        public void run() {
+          plugin.socketClient.close();
+        }
+      });
       return true;
     }
 
