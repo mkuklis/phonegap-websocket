@@ -13,25 +13,43 @@ import org.json.JSONException;
  * WebSocket Cordova Plugin
  */
 public class WebSocket extends CordovaPlugin {
-
+	
+	// actions
+	private static final String ACTION_CONNECT = "connect";
+	private static final String ACTION_SEND = "send";
+	private static final String ACTION_CLOSE = "close";
+	
   private CordovaClient socketClient;
   private URI uri;
 
   @Override
-  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-
-    if (action.equals("connect")) {
-      String url = args.getString(0);
-      this.connect(url, callbackContext);
+  public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  	final WebSocket plugin = this;
+  	
+    if (ACTION_CONNECT.equals(action)) {
+      final String url = args.getString(0);
+      cordova.getThreadPool().execute(new Runnable() {
+      	public void run() {
+      		plugin.connect(url, callbackContext);
+      	}
+      });
       return true;
     }
-    else if (action.equals("send")) {
-      String data = args.getString(0);
-      this.send(data);
+    else if (ACTION_SEND.equals(action)) {
+      final String data = args.getString(0);
+      cordova.getThreadPool().execute(new Runnable() {
+      	public void run() {
+      		plugin.send(data);
+      	}
+      });
       return true;
     }
-    else if (action.equals("close")) {
-      this.socketClient.close();
+    else if (ACTION_CLOSE.equals(action)) {
+    	cordova.getThreadPool().execute(new Runnable() {
+    		public void run() {
+    			plugin.socketClient.close();
+    		}
+    	});
       return true;
     }
 
@@ -51,7 +69,6 @@ public class WebSocket extends CordovaPlugin {
       } catch (URISyntaxException e) {
         callbackContext.error("Not a valid URL");
       }
-
     } else {
       callbackContext.error("Not a valid URL");
     }

@@ -24,9 +24,7 @@
 
   WebSocket.prototype = {
     send: function (data) {
-      if (this.readyState == WebSocket.OPEN) {
-        cordova.exec(function () {}, function () {}, "WebSocket", "send", [data]);
-      }
+      cordova.exec(function () {}, function () {}, "WebSocket", "send", [data]);
     },
 
     close: function () {
