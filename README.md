@@ -16,6 +16,10 @@ The plugin works well with [socket.io](http://socket.io/).
   <plugin name="WebSocket" value="com.phonegap.plugins.websocket.WebSocket" />
 ```
 
+## Demo
+
+[https://bitbucket.org/mkuklis/phonegap-websocket-demo](https://bitbucket.org/mkuklis/phonegap-websocket-demo/)
+
 ##License:
 <pre>
 The MIT License
