@@ -1,6 +1,9 @@
 package com.phonegap.plugins.websocket;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.cordova.api.CallbackContext;
 import org.apache.cordova.api.PluginResult;
 import org.apache.cordova.api.PluginResult.Status;
@@ -9,10 +12,20 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.java_websocket.WebSocket.READYSTATE;
 
 public class CordovaClient extends WebSocketClient {
 
   private CallbackContext callbackContext;
+
+  private static final Map<READYSTATE, Integer> stateMap = new HashMap<READYSTATE, Integer>();
+  static {
+  	stateMap.put(READYSTATE.CONNECTING, 0);
+  	stateMap.put(READYSTATE.OPEN, 1);
+  	stateMap.put(READYSTATE.CLOSING, 2);
+  	stateMap.put(READYSTATE.CLOSED, 3);
+  	stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
+  }
 
   public CordovaClient(URI serverUri , Draft draft) {
     super(serverUri, draft);
@@ -57,7 +70,7 @@ public class CordovaClient extends WebSocketClient {
       event = new JSONObject();
       event.put("type", type);
       event.put("data", data);
-      event.put("readyState", this.getReadyState());
+      event.put("readyState", stateMap.get(this.getReadyState()));
       return event;
     }
     catch (JSONException e) {
