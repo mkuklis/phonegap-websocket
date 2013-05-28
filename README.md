@@ -20,6 +20,11 @@ The plugin works well with [socket.io](http://socket.io/).
 
 [https://bitbucket.org/mkuklis/phonegap-websocket-demo](https://bitbucket.org/mkuklis/phonegap-websocket-demo/)
 
+## Note
+
+If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your 
+local server.
+
 ##License:
 <pre>
 The MIT License
