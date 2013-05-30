@@ -34,7 +34,7 @@
       }
 
       this.readyState = WebSocket.CLOSING;
-      cordova.exec(function () {}, function () {}, "WebSocket", "close");
+      cordova.exec(function () {}, function () {}, "WebSocket", "close", []);
     },
 
     addEventListener: function (type, listener, useCapture) {
