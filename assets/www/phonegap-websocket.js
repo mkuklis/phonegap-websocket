@@ -38,16 +38,14 @@
     },
 
     addEventListener: function (type, listener, useCapture) {
-      if (!(type in this.events)) {
-        this.events[type] = [];
-      }
+      this.events[type] || (this.events[type] = []);
       this.events[type].push(listener);
     },
 
     removeEventListener: function (type, listener, useCapture) {
       var events;
 
-      if (!(type in this.events)) return;
+      if (!this.events[type]) return;
 
       events = this.events[type];
 
@@ -63,7 +61,7 @@
       var handler;
       var events = this.events[event.type] || [];
 
-      for (var i = 0, l = events.length; i < l; ++i) {
+      for (var i = 0, l = events.length; i < l; i++) {
         events[i](event);
       }
 
@@ -81,6 +79,7 @@
 
     _createSimpleEvent: function (type) {
       var event = document.createEvent("Event");
+      
       event.initEvent(type, false, false);
 
       return event;
@@ -88,6 +87,7 @@
 
     _createMessageEvent: function (type, data) {
       var event = document.createEvent("MessageEvent");
+      
       event.initMessageEvent("message", false, false, data, null, null, window, null);
 
       return event;
