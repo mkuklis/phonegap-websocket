@@ -74,7 +74,8 @@ public class WebSocket extends CordovaPlugin {
   }
 
   private void send(String data) {
-    if (data != null && data.length() > 0) {
+    if (data != null && data.length() > 0 && 
+    		this.socketClient.getConnection().isOpen()) {
       this.socketClient.send(data);
     }
   }
