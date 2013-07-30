@@ -15,14 +15,13 @@
 
     <!-- android -->
     <platform name="android">
-        <lib-file src="libs/java_websocket.jar" arch="device" />
-        <lib-file src="libs/java_websocket.jar" arch="simulator" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="WebSocket">
                 <plugin name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
             </feature>
         </config-file>
 
+        <source-file src="libs/java_websocket.jar" target-dir="libs" />
         <source-file src="src/android/CordovaClient.java" target-dir="src/org/apache/cordova/plugin/websocket" />
         <source-file src="src/android/WebSocket.java" target-dir="src/org/apache/cordova/plugin/websocket" />
     </platform>
