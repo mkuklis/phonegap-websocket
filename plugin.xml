@@ -15,8 +15,8 @@
 
     <!-- android -->
     <platform name="android">
-        <lib-file src="lib/java_websocket.jar" arch="device" />
-        <lib-file src="lib/java_websocket.jar" arch="simulator" />
+        <lib-file src="libs/java_websocket.jar" arch="device" />
+        <lib-file src="libs/java_websocket.jar" arch="simulator" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="WebSocket">
                 <plugin name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
