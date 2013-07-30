@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.cordova.api.CallbackContext;
+// import org.apache.cordova.api.CallbackContext;
 import org.apache.cordova.api.PluginResult;
 import org.apache.cordova.api.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;

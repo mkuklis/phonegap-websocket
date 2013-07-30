@@ -4,6 +4,10 @@
            id="org.apache.cordova.plugin.websocket.WebSocket"
       version="0.1.0">
 
+    <engines>
+        <engine name="cordova" version="3.0.0" />
+        <engine name="cordova" version="2.2.0" />
+    </engines>
     <name>websocket</name>
 
     <js-module src="www/phoengap-websocket.js" name="websocket">
