@@ -1,4 +1,4 @@
-package com.phonegap.plugins.websocket;
+package org.apache.cordova.plugin.websocket;
 
 import java.net.URI;
 import java.util.HashMap;

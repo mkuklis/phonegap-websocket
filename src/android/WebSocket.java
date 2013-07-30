@@ -1,4 +1,4 @@
-package com.phonegap.plugins.websocket;
+package org.apache.cordova.plugin.websocket;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -74,7 +74,7 @@ public class WebSocket extends CordovaPlugin {
   }
 
   private void send(String data) {
-    if (data != null && data.length() > 0 && 
+    if (data != null && data.length() > 0 &&
       this.socketClient.getConnection().isOpen()) {
       this.socketClient.send(data);
     }
