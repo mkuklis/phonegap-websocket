@@ -9,7 +9,7 @@
     </engines>
     <name>websocket</name>
 
-    <js-module src="www/phoengap-websocket.js" name="websocket">
+    <js-module src="www/phonegap-websocket.js" name="websocket">
         <clobbers target="WebSocket" />
     </js-module>
 
