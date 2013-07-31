@@ -7,7 +7,7 @@
     <engines>
         <engine name="cordova" version="3.0.0" />
     </engines>
-    <name>websocket</name>
+    <name>WebSocket</name>
 
     <js-module src="www/phonegap-websocket.js" name="websocket">
         <clobbers target="WebSocket" />
