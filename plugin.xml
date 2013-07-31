@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-           id="org.apache.cordova.plugin.websocket"
+           id="org.apache.cordova.plugin.websocket.WebSocket"
       version="0.1.0">
 
     <engines>
@@ -17,7 +17,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="WebSocket">
-                <plugin name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
+                <param name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
             </feature>
         </config-file>
 
