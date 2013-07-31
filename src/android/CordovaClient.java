@@ -1,12 +1,12 @@
-package com.phonegap.plugins.websocket;
+package org.apache.cordova.plugin.websocket;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.cordova.api.CallbackContext;
-import org.apache.cordova.api.PluginResult;
-import org.apache.cordova.api.PluginResult.Status;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.PluginResult;
+import org.apache.cordova.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;

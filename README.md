@@ -5,27 +5,28 @@ The websocket client is based on [Java-WebSocket](https://github.com/TooTallNate
 
 The plugin works well with [socket.io](http://socket.io/).
 
+Compatible with PhoneGap 3.0.x and installable via the PhoneGap (or Cordova) CLI.
+
 ## Installation
 
-1. Copy `src/*` folder under your project's `src`
-2. Copy `libs/java_websocket.jar` under your project's `libs`
-3. Copy `assets/www/phonegap-websocket.js` unders your project's `assets/www/` and make sure it's included in your `index.html`
-4. add plugin definition to res/xml/config.xml
+Inside your phonegap project:
 
-```xml
-  <plugin name="WebSocket" value="com.phonegap.plugins.websocket.WebSocket" />
+```bash
+cordova plugin add https://github.com/remy/phonegap-websocket
 ```
 
-## Demo
+Or using the phonegap CLI:
 
-[https://bitbucket.org/mkuklis/phonegap-websocket-demo](https://bitbucket.org/mkuklis/phonegap-websocket-demo/)
+```bash
+phonegap local plugin add https://github.com/remy/phonegap-websocket
+```
 
 ## Note
 
-If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your 
-local server.
+If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your local server.
 
 ##License:
+
 <pre>
 The MIT License
 </pre>

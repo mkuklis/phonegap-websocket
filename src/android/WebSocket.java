@@ -1,11 +1,11 @@
-package com.phonegap.plugins.websocket;
+package org.apache.cordova.plugin.websocket;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.cordova.api.CallbackContext;
-import org.apache.cordova.api.CordovaPlugin;
-import org.apache.cordova.api.PluginResult;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -74,7 +74,7 @@ public class WebSocket extends CordovaPlugin {
   }
 
   private void send(String data) {
-    if (data != null && data.length() > 0 && 
+    if (data != null && data.length() > 0 &&
       this.socketClient.getConnection().isOpen()) {
       this.socketClient.send(data);
     }
