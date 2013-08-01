@@ -25,6 +25,10 @@ phonegap local plugin add https://github.com/mkuklis/phonegap-websocket
 
 If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your local server.
 
+## Contributors
+
+* [@remy](http://github.com/remy)
+
 ##License:
 
 <pre>
