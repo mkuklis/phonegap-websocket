@@ -12,13 +12,13 @@ Compatible with PhoneGap 3.0.x and installable via the PhoneGap (or Cordova) CLI
 Inside your phonegap project:
 
 ```bash
-cordova plugin add https://github.com/remy/phonegap-websocket
+cordova plugin add https://github.com/mkuklis/phonegap-websocket
 ```
 
 Or using the phonegap CLI:
 
 ```bash
-phonegap local plugin add https://github.com/remy/phonegap-websocket
+phonegap local plugin add https://github.com/mkuklis/phonegap-websocket
 ```
 
 ## Note
