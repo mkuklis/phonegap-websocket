@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
+           id="org.apache.cordova.plugin.websocket.WebSocket"
+      version="0.1.0">
+
+    <engines>
+        <engine name="cordova" version="3.0.0" />
+    </engines>
+    <name>WebSocket</name>
+
+    <js-module src="www/phonegap-websocket.js" name="websocket">
+        <clobbers target="WebSocket" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="WebSocket">
+                <param name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
+            </feature>
+        </config-file>
+
+        <source-file src="libs/java_websocket.jar" target-dir="libs" />
+        <source-file src="src/android/CordovaClient.java" target-dir="src/org/apache/cordova/plugin/websocket" />
+        <source-file src="src/android/WebSocket.java" target-dir="src/org/apache/cordova/plugin/websocket" />
+    </platform>
+</plugin>
