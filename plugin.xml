@@ -9,12 +9,12 @@
     </engines>
     <name>WebSocket</name>
 
-    <js-module src="www/phonegap-websocket.js" name="websocket">
-        <clobbers target="WebSocket" />
-    </js-module>
-
     <!-- android -->
     <platform name="android">
+       <js-module src="www/phonegap-websocket.js" name="websocket">
+          <clobbers target="WebSocket" />
+       </js-module>
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="WebSocket">
                 <param name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
