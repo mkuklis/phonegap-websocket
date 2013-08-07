@@ -17,11 +17,6 @@ var WebSocket = function (url) {
     }, "WebSocket", "connect", [url]);
 }
 
-WebSocket.CONNECTING = 0;
-WebSocket.OPEN = 1;
-WebSocket.CLOSING = 2;
-WebSocket.CLOSED = 3;
-
 WebSocket.prototype = {
   send: function (data) {
     exec(function () {}, function () {}, "WebSocket", "send", [data]);
@@ -93,6 +88,11 @@ WebSocket.prototype = {
     return event;
   }
 };
+
+WebSocket.prototype.CONNECTING = WebSocket.CONNECTING = 0;
+WebSocket.prototype.OPEN = WebSocket.OPEN = 1;
+WebSocket.prototype.CLOSING = WebSocket.CLOSING = 2;
+WebSocket.prototype.CLOSED = WebSocket.CLOSED = 3;
 
 if (module.exports) {
   module.exports = WebSocket;
