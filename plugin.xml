@@ -5,7 +5,7 @@
       version="0.1.0">
 
     <engines>
-        <engine name="cordova" version="3.0.0" />
+        <engine name="cordova" version=">=3.0" />
     </engines>
     <name>WebSocket</name>
 
