@@ -22,7 +22,7 @@
         </config-file>
 
         <source-file src="libs/java_websocket.jar" target-dir="libs" />
-        <source-file src="src/android/CordovaClient.java" target-dir="src/org/apache/cordova/plugin/websocket" />
-        <source-file src="src/android/WebSocket.java" target-dir="src/org/apache/cordova/plugin/websocket" />
+        <source-file src="src/org/apache/cordova/plugin/websocket/CordovaClient.java" target-dir="src/org/apache/cordova/plugin/websocket" />
+        <source-file src="src/org/apache/cordova/plugin/websocket/WebSocket.java" target-dir="src/org/apache/cordova/plugin/websocket" />
     </platform>
 </plugin>

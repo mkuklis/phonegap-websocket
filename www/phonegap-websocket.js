@@ -1,12 +1,16 @@
 var exec = require('cordova/exec');
 
 // Websocket constructor
-var WebSocket = function (url) {
+var WebSocket = function (url, protocol) {
   var socket = this;
 
   this.events = [];
+  this.protocol = protocol;
+  
   this.url = url;
   this.readyState = WebSocket.CONNECTING;
+  
+  var args = (protocol) ? [ url, protocol ] : [ url ];
 
   exec(
     function (event) {
@@ -14,12 +18,12 @@ var WebSocket = function (url) {
     },
     function (event) {
       socket._handleEvent(event);
-    }, "WebSocket", "connect", [url]);
+    }, "WebSocket", "connect", args);
 }
 
 WebSocket.prototype = {
   send: function (data) {
-    exec(function () {}, function () {}, "WebSocket", "send", [data]);
+    exec(function () {}, function () {}, "WebSocket", "send", [ data ]);
   },
 
   close: function () {
