@@ -9,6 +9,7 @@ import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
+import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public class CordovaClient extends WebSocketClient {
   }
 
   public CordovaClient(URI serverURI, CallbackContext callbackContext) {
-    super(serverURI);
+    super(serverURI, new Draft_17());
     this.callbackContext = callbackContext;
   }
 
