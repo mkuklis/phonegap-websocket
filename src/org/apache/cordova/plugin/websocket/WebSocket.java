@@ -1,7 +1,6 @@
 package org.apache.cordova.plugin.websocket;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -79,7 +78,7 @@ public class WebSocket extends CordovaPlugin {
       try {
         this.uri = new URI(url);
         
-        this.draft = getDraft(protocol);
+        this.draft = getDraft(protocol, callbackContext);
         
         
         this.socketClient = new CordovaClient(uri, draft, callbackContext);
@@ -95,7 +94,7 @@ public class WebSocket extends CordovaPlugin {
     }
   }
   
-  private Draft getDraft(String protocol) {
+  private Draft getDraft(String protocol, CallbackContext callbackContext) {
   	Draft draft = new Draft_10();
   	
   	if (protocol != null) {
@@ -107,13 +106,9 @@ public class WebSocket extends CordovaPlugin {
         	Constructor<?> ctor = clazz.getConstructor(String.class);
         	draft = (Draft) ctor.newInstance();
         } 
-        catch (SecurityException e) {} 
-        catch (NoSuchMethodException e) {} 
-        catch (ClassNotFoundException e1) {} 
-        catch (IllegalArgumentException e) {} 
-        catch (InstantiationException e) {} 
-        catch (IllegalAccessException e) {} 
-        catch (InvocationTargetException e) {}
+        catch (Exception e) {
+        	callbackContext.error("Draft not found.");
+        } 
     	}
     }  
   	
