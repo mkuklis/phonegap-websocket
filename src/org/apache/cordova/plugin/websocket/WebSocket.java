@@ -103,7 +103,7 @@ public class WebSocket extends CordovaPlugin {
       if (draftName != null) {
         try {
           Class<?> clazz = Class.forName(draftName);
-          Constructor<?> ctor = clazz.getConstructor(String.class);
+          Constructor<?> ctor = clazz.getConstructor();
           draft = (Draft) ctor.newInstance();
         }
         catch (Exception e) {
