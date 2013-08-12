@@ -95,24 +95,23 @@ public class WebSocket extends CordovaPlugin {
   }
   
   private Draft getDraft(String protocol, CallbackContext callbackContext) {
-  	Draft draft = new Draft_10();
+    Draft draft = new Draft_10();
   	
-  	if (protocol != null) {
-    	String draftName = draftMap.get(protocol);
+    if (protocol != null) {
+      String draftName = draftMap.get(protocol);
     	
-    	if (draftName != null) {
+      if (draftName != null) {
         try {
-        	Class<?> clazz = Class.forName(draftName);
-        	Constructor<?> ctor = clazz.getConstructor(String.class);
-        	draft = (Draft) ctor.newInstance();
-        } 
+          Class<?> clazz = Class.forName(draftName);
+          Constructor<?> ctor = clazz.getConstructor(String.class);
+          draft = (Draft) ctor.newInstance();
+        }
         catch (Exception e) {
-        	callbackContext.error("Draft not found.");
-        } 
-    	}
-    }  
-  	
-  	return draft;
+          callbackContext.error("Draft not found.");
+        }
+      }
+    }
+    return draft;
   }
 
   private void send(String data) {
