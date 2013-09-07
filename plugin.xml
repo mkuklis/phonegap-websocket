@@ -7,7 +7,12 @@
     <engines>
         <engine name="cordova" version=">=3.0" />
     </engines>
+
     <name>WebSocket</name>
+
+    <description>
+      Phonegap plugin which adds support for websockets under Android. 
+    </description>
 
     <!-- android -->
     <platform name="android">
