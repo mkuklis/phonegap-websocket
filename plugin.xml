@@ -14,6 +14,8 @@
       Phonegap plugin which adds support for websockets under Android. 
     </description>
 
+    <license>MIT</license>
+
     <!-- android -->
     <platform name="android">
        <js-module src="www/phonegap-websocket.js" name="websocket">
