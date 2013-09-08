@@ -97,7 +97,7 @@ public class WebSocket extends CordovaPlugin {
   private Draft getDraft(String protocol, CallbackContext callbackContext) {
     Draft draft = new Draft_10();
   	
-    if (protocol != null) {
+    if (protocol != "") {
       String draftName = draftMap.get(protocol);
     	
       if (draftName != null) {
@@ -111,6 +111,7 @@ public class WebSocket extends CordovaPlugin {
         }
       }
     }
+    
     return draft;
   }
 
