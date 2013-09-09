@@ -4,17 +4,22 @@
            id="org.apache.cordova.plugin.websocket.WebSocket"
       version="0.1.0">
 
-    <engines>
-        <engine name="cordova" version=">=3.0" />
-    </engines>
-
     <name>WebSocket</name>
-
+    
+    <keywords>phonegap,websocket,android</keywords>
+    
     <description>
       Phonegap plugin which adds support for websockets under Android. 
     </description>
-
+    
     <license>MIT</license>
+
+    <author>Michal Kuklis</author>
+
+
+    <engines>
+        <engine name="cordova" version=">=3.0" />
+    </engines>
 
     <!-- android -->
     <platform name="android">
