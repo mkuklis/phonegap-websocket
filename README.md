@@ -23,6 +23,12 @@ Or using the phonegap CLI:
 phonegap local plugin add https://github.com/mkuklis/phonegap-websocket
 ```
 
+## Demo
+
+You can find demo based on this plugin and socket.io here:
+
+[https://bitbucket.org/mkuklis/phonegap-websocket-demo](https://bitbucket.org/mkuklis/phonegap-websocket-demo)
+
 ## Note
 
 If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your local server.
