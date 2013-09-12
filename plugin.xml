@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-           id="org.apache.cordova.plugin.websocket.WebSocket"
+           id="com.ququplay.websocket.WebSocket"
       version="0.1.0">
 
     <name>WebSocket</name>
@@ -29,12 +29,12 @@
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="WebSocket">
-                <param name="android-package" value="org.apache.cordova.plugin.websocket.WebSocket" />
+                <param name="android-package" value="com.ququplay.websocket.WebSocket" />
             </feature>
         </config-file>
 
         <source-file src="libs/java_websocket.jar" target-dir="libs" />
-        <source-file src="src/org/apache/cordova/plugin/websocket/CordovaClient.java" target-dir="src/org/apache/cordova/plugin/websocket" />
-        <source-file src="src/org/apache/cordova/plugin/websocket/WebSocket.java" target-dir="src/org/apache/cordova/plugin/websocket" />
+        <source-file src="src/com/ququplay/websocket/CordovaClient.java" target-dir="src/com/ququplay/websocket" />
+        <source-file src="src/com/ququplay/websocket/WebSocket.java" target-dir="src/com/ququplay/websocket" />
     </platform>
 </plugin>

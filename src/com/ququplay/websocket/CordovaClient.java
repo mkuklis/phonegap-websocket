@@ -1,4 +1,4 @@
-package org.apache.cordova.plugin.websocket;
+package com.ququplay.websocket;
 
 import java.net.URI;
 import java.util.HashMap;
