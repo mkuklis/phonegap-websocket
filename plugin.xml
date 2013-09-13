@@ -36,5 +36,6 @@
         <source-file src="libs/java_websocket.jar" target-dir="libs" />
         <source-file src="src/com/ququplay/websocket/CordovaClient.java" target-dir="src/com/ququplay/websocket" />
         <source-file src="src/com/ququplay/websocket/WebSocket.java" target-dir="src/com/ququplay/websocket" />
+        <source-file src="src/com/ququplay/websocket/Utils.java" target-dir="src/com/ququplay/websocket" />
     </platform>
 </plugin>

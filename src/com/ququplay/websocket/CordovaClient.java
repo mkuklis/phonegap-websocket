@@ -27,8 +27,8 @@ public class CordovaClient extends WebSocketClient {
   	stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
   }
 
-  public CordovaClient(URI serverURI, Draft draft, CallbackContext callbackContext) {
-    super(serverURI, draft);
+  public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, CallbackContext callbackContext) {
+    super(serverURI, draft, headers, 0);
     this.callbackContext = callbackContext;
   }
 

@@ -13,6 +13,7 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_10;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * WebSocket Cordova Plugin
@@ -26,6 +27,7 @@ public class WebSocket extends CordovaPlugin {
   private CordovaClient socketClient;
   private URI uri;
   private Draft draft;
+  private Map<String, String> headers;
   
   private static final Map<String, String> draftMap = new HashMap<String, String>();
   static {
@@ -41,11 +43,11 @@ public class WebSocket extends CordovaPlugin {
 
     if (ACTION_CONNECT.equals(action)) {
       final String url = args.getString(0);
-      final String protocol = args.getString(1);
+      final JSONObject options = args.getJSONObject(1);
       
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.connect(url, callbackContext, protocol);
+          plugin.connect(url, callbackContext, options);
         }
       });
       return true;
@@ -71,17 +73,16 @@ public class WebSocket extends CordovaPlugin {
     return false;
   }
 
-  private void connect(String url, CallbackContext callbackContext, String protocol) {
+  private void connect(String url, CallbackContext callbackContext, JSONObject options) {
 
   	
     if (url != null && url.length() > 0) {
       try {
         this.uri = new URI(url);
+        this.draft = this.getDraft(options, callbackContext);
+        this.headers = this.getHeaders(options);
         
-        this.draft = getDraft(protocol, callbackContext);
-        
-        
-        this.socketClient = new CordovaClient(uri, draft, callbackContext);
+        this.socketClient = new CordovaClient(this.uri, this.draft, this.headers, callbackContext);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
@@ -94,15 +95,23 @@ public class WebSocket extends CordovaPlugin {
     }
   }
   
-  private Draft getDraft(String protocol, CallbackContext callbackContext) {
-    Draft draft = new Draft_10();
+  private Draft getDraft(JSONObject options, CallbackContext callbackContext) {
   	
-    if (protocol != "") {
-      String draftName = draftMap.get(protocol);
+  	String draftName;
+  	Draft draft = new Draft_10();
+  	
+    try {
+	    draftName = options.getString("draft");
+    } catch (JSONException e1) {
+    	return draft;
+    }
+   
+    if (draftName != null) {
+      String draftClassName = draftMap.get(draftName);
     	
-      if (draftName != null) {
+      if (draftClassName != null) {
         try {
-          Class<?> clazz = Class.forName(draftName);
+          Class<?> clazz = Class.forName(draftClassName);
           Constructor<?> ctor = clazz.getConstructor();
           draft = (Draft) ctor.newInstance();
         }
@@ -113,6 +122,14 @@ public class WebSocket extends CordovaPlugin {
     }
     
     return draft;
+  }
+  
+  private Map<String, String> getHeaders(JSONObject options) {  	
+  	try {
+	    return Utils.jsonToMap(options.getJSONObject("headers"));
+    } catch (JSONException e) {
+	    return null;
+    }
   }
 
   private void send(String data) {
