@@ -16,7 +16,7 @@ public class Utils {
 				
 		while (keys.hasNext()) {
 			String key = keys.next();
-			result.put(keys.next(), data.getString(key));
+			result.put(key, data.getString(key));
 		}
 
 		return result;
