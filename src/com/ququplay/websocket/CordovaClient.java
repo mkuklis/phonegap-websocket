@@ -20,11 +20,11 @@ public class CordovaClient extends WebSocketClient {
 
   private static final Map<READYSTATE, Integer> stateMap = new HashMap<READYSTATE, Integer>();
   static {
-  	stateMap.put(READYSTATE.CONNECTING, 0);
-  	stateMap.put(READYSTATE.OPEN, 1);
-  	stateMap.put(READYSTATE.CLOSING, 2);
-  	stateMap.put(READYSTATE.CLOSED, 3);
-  	stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
+    stateMap.put(READYSTATE.CONNECTING, 0);
+    stateMap.put(READYSTATE.OPEN, 1);
+    stateMap.put(READYSTATE.CLOSING, 2);
+    stateMap.put(READYSTATE.CLOSED, 3);
+    stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
   }
 
   public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, CallbackContext callbackContext) {

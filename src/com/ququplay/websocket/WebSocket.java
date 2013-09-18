@@ -75,7 +75,6 @@ public class WebSocket extends CordovaPlugin {
 
   private void connect(String url, CallbackContext callbackContext, JSONObject options) {
 
-  	
     if (url != null && url.length() > 0) {
       try {
         this.uri = new URI(url);
@@ -96,9 +95,9 @@ public class WebSocket extends CordovaPlugin {
   }
   
   private Draft getDraft(JSONObject options, CallbackContext callbackContext) {
-  	
-  	String draftName;
-  	Draft draft = new Draft_10();
+
+    String draftName;
+    Draft draft = new Draft_10();
   	
     try {
 	    draftName = options.getString("draft");
@@ -125,10 +124,11 @@ public class WebSocket extends CordovaPlugin {
   }
   
   private Map<String, String> getHeaders(JSONObject options) {  	
-  	try {
-	    return Utils.jsonToMap(options.getJSONObject("headers"));
-    } catch (JSONException e) {
-	    return null;
+    try {
+      return Utils.jsonToMap(options.getJSONObject("headers"));
+    } 
+    catch (JSONException e) {
+      return null;
     }
   }
 
