@@ -98,16 +98,17 @@ public class WebSocket extends CordovaPlugin {
 
     String draftName;
     Draft draft = new Draft_10();
-  	
+    
     try {
-	    draftName = options.getString("draft");
-    } catch (JSONException e1) {
-    	return draft;
+      draftName = options.getString("draft");
+    } 
+    catch (JSONException e1) {
+      return draft;
     }
    
     if (draftName != null) {
       String draftClassName = draftMap.get(draftName);
-    	
+      
       if (draftClassName != null) {
         try {
           Class<?> clazz = Class.forName(draftClassName);
@@ -123,7 +124,7 @@ public class WebSocket extends CordovaPlugin {
     return draft;
   }
   
-  private Map<String, String> getHeaders(JSONObject options) {  	
+  private Map<String, String> getHeaders(JSONObject options) {    
     try {
       return Utils.jsonToMap(options.getJSONObject("headers"));
     } 
