@@ -11,6 +11,8 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_10;
+import org.java_websocket.WebSocketImpl;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +82,7 @@ public class WebSocket extends CordovaPlugin {
         this.uri = new URI(url);
         this.draft = this.getDraft(options, callbackContext);
         this.headers = this.getHeaders(options);
+        this.setRcvBufSize(options);
         
         this.socketClient = new CordovaClient(this.uri, this.draft, this.headers, callbackContext);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -98,7 +101,7 @@ public class WebSocket extends CordovaPlugin {
 
     String draftName;
     Draft draft = new Draft_10();
-    
+        
     try {
       draftName = options.getString("draft");
     } 
@@ -123,7 +126,7 @@ public class WebSocket extends CordovaPlugin {
     
     return draft;
   }
-  
+
   private Map<String, String> getHeaders(JSONObject options) {    
     try {
       return Utils.jsonToMap(options.getJSONObject("headers"));
@@ -131,6 +134,15 @@ public class WebSocket extends CordovaPlugin {
     catch (JSONException e) {
       return null;
     }
+  }
+  
+  private void setRcvBufSize(JSONObject options) {    
+    try {
+      if (options.has("rcvBufSize")) {
+        WebSocketImpl.RCVBUF = options.getInt("rcvBufSize");
+      }
+    } 
+    catch (JSONException e) {}
   }
 
   private void send(String data) {
