@@ -8,12 +8,10 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.WebSocketImpl;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.java_websocket.WebSocket.READYSTATE;
 
 public class CordovaClient extends WebSocketClient {
 
@@ -75,5 +73,10 @@ public class CordovaClient extends WebSocketClient {
     }
 
     return null;
+  }
+
+	@Override
+  public String getResourceDescriptor() {
+	  return "*";
   }
 }
