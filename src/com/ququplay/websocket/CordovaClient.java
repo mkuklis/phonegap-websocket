@@ -75,8 +75,8 @@ public class CordovaClient extends WebSocketClient {
     return null;
   }
 
-	@Override
+  @Override
   public String getResourceDescriptor() {
-	  return "*";
+    return "*";
   }
 }
