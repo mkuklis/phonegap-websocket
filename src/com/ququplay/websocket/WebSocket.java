@@ -66,7 +66,9 @@ public class WebSocket extends CordovaPlugin {
     else if (ACTION_CLOSE.equals(action)) {
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.socketClient.close();
+          if (plugin.socketClient != null) {
+            plugin.socketClient.close();
+          }
         }
       });
       return true;
