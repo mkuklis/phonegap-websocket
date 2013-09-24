@@ -1,6 +1,7 @@
 package com.ququplay.websocket;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,10 @@ import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
+import org.java_websocket.exceptions.InvalidFrameException;
+import org.java_websocket.framing.FrameBuilder;
+import org.java_websocket.framing.Framedata;
+import org.java_websocket.framing.FramedataImpl1;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +21,9 @@ import org.json.JSONObject;
 public class CordovaClient extends WebSocketClient {
 
   private CallbackContext callbackContext;
-
+  
+  private FrameBuilder frameBuilder;
+  
   private static final Map<READYSTATE, Integer> stateMap = new HashMap<READYSTATE, Integer>();
   static {
     stateMap.put(READYSTATE.CONNECTING, 0);
@@ -29,6 +36,7 @@ public class CordovaClient extends WebSocketClient {
   public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, CallbackContext callbackContext) {
     super(serverURI, draft, headers, 0);
     this.callbackContext = callbackContext;
+    this.frameBuilder = new FramedataImpl1();
   }
 
   @Override
@@ -39,6 +47,20 @@ public class CordovaClient extends WebSocketClient {
   @Override
   public void onMessage(String message) {
     sendResult(message, "message", PluginResult.Status.OK);
+  }
+  
+  @Override
+  public void onFragment(Framedata frame) {
+    try {
+      this.frameBuilder.append(frame);
+    } catch (InvalidFrameException e) {}
+    
+    // last frame?
+    if (frame.isFin()) {
+      byte[] bytes = this.frameBuilder.getPayloadData().array();
+      this.onMessage(new String( bytes, Charset.forName("UTF-8") ));
+      this.frameBuilder.getPayloadData().clear();
+    }
   }
 
   @Override
