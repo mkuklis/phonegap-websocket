@@ -5,6 +5,9 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
@@ -37,6 +40,17 @@ public class CordovaClient extends WebSocketClient {
     super(serverURI, draft, headers, 0);
     this.callbackContext = callbackContext;
     this.frameBuilder = new FramedataImpl1();
+    
+    if (serverURI.getScheme().equals("wss")) {
+      try {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, null, null);
+        SSLSocketFactory factory = sslContext.getSocketFactory();
+        this.setSocket(factory.createSocket());
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    }  
   }
 
   @Override
@@ -53,14 +67,15 @@ public class CordovaClient extends WebSocketClient {
   public void onFragment(Framedata frame) {
     try {
       this.frameBuilder.append(frame);
+
+	    // last frame?
+	    if (frame.isFin()) {
+	      byte[] bytes = this.frameBuilder.getPayloadData().array();
+	      this.onMessage(new String( bytes, Charset.forName("UTF-8") ));
+	      this.frameBuilder.getPayloadData().clear();
+	    }
+	    
     } catch (InvalidFrameException e) {}
-    
-    // last frame?
-    if (frame.isFin()) {
-      byte[] bytes = this.frameBuilder.getPayloadData().array();
-      this.onMessage(new String( bytes, Charset.forName("UTF-8") ));
-      this.frameBuilder.getPayloadData().clear();
-    }
   }
 
   @Override
