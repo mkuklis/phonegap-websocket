@@ -33,6 +33,8 @@ You can find demo based on this plugin and socket.io here:
 
 If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your local server.
 
+If you plan to run it from your phone please make sure to update your `config.xml` file and add your server's IP address to access tag. More information can be found [here](http://docs.phonegap.com/en/3.0.0/guide_appdev_whitelist_index.md.html#Domain%20Whitelist%20Guide) 
+
 ## Contributors
 
 * [@remy](http://github.com/remy)
