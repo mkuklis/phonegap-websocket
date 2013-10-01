@@ -26,7 +26,6 @@ public class WebSocket extends CordovaPlugin {
   private static final String ACTION_CONNECT = "connect";
   private static final String ACTION_SEND = "send";
   private static final String ACTION_CLOSE = "close";
-  private CordovaClient socketClient;
   private URI uri;
   private Draft draft;
   private Map<String, String> headers;
@@ -38,36 +37,41 @@ public class WebSocket extends CordovaPlugin {
     draftMap.put("draft75", "org.java_websocket.drafts.Draft_75");
     draftMap.put("draft76", "org.java_websocket.drafts.Draft_76");
   }
+  private static final Map<String, CordovaClient> clients = new HashMap<String, CordovaClient>();
 
   @Override
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
     final WebSocket plugin = this;
 
     if (ACTION_CONNECT.equals(action)) {
-      final String url = args.getString(0);
-      final JSONObject options = args.getJSONObject(1);
+      final String socket_id = args.getString(0);
+      final String url = args.getString(1);
+      final JSONObject options = args.getJSONObject(2);
       
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.connect(url, callbackContext, options);
+          plugin.connect(socket_id, url, callbackContext, options);
         }
       });
       return true;
     }
     else if (ACTION_SEND.equals(action)) {
-      final String data = args.getString(0);
+      final String socket_id = args.getString(0);
+      final String data = args.getString(1);
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.send(data);
+          plugin.send(socket_id, data);
         }
       });
       return true;
     }
     else if (ACTION_CLOSE.equals(action)) {
+      final String socket_id = args.getString(0);
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          if (plugin.socketClient != null) {
-            plugin.socketClient.close();
+          final CordovaClient client = clients.remove(socket_id);
+          if (client != null) {
+            client.close();
           }
         }
       });
@@ -77,7 +81,7 @@ public class WebSocket extends CordovaPlugin {
     return false;
   }
 
-  private void connect(String url, CallbackContext callbackContext, JSONObject options) {
+  private void connect(String socket_id, String url, CallbackContext callbackContext, JSONObject options) {
 
     if (url != null && url.length() > 0) {
       try {
@@ -86,12 +90,17 @@ public class WebSocket extends CordovaPlugin {
         this.headers = this.getHeaders(options);
         this.setRcvBufSize(options);
         
-        this.socketClient = new CordovaClient(this.uri, this.draft, this.headers,
+        final CordovaClient client = new CordovaClient(this.uri, this.draft, this.headers,
           options, callbackContext);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
-        this.socketClient.connect();
+        client.connect();
+        
+        final CordovaClient prev = clients.put(socket_id, client);
+        if (prev != null) {
+          prev.close();
+        }
       } catch (URISyntaxException e) {
         callbackContext.error("Not a valid URL");
       }
@@ -148,11 +157,13 @@ public class WebSocket extends CordovaPlugin {
     catch (JSONException e) {}
   }
 
-  private void send(String data) {
+  private void send(String socket_id, String data) {
+    final CordovaClient client = clients.get(socket_id);
     if (data != null && data.length() > 0 &&
-      this.socketClient.getConnection() != null &&
-      this.socketClient.getConnection().isOpen()) {
-      this.socketClient.send(data);
+      client != null &&
+      client.getConnection() != null &&
+      client.getConnection().isOpen()) {
+      client.send(data);
     }
   }
 }

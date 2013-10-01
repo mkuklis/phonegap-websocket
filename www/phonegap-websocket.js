@@ -1,5 +1,7 @@
 var exec = require('cordova/exec');
 
+var _websocket_id = 0;
+
 // Websocket constructor
 var WebSocket = function (url, options) {
   var socket = this;
@@ -10,6 +12,8 @@ var WebSocket = function (url, options) {
   this.options = options;
   this.url = url;
   this.readyState = WebSocket.CONNECTING;
+  this.socket_id = "_cordova_websocket_" + _websocket_id;
+  _websocket_id += 1;
   
   exec(
     function (event) {
@@ -17,12 +21,17 @@ var WebSocket = function (url, options) {
     },
     function (event) {
       socket._handleEvent(event);
-    }, "WebSocket", "connect", [ url, options ]);
+    }, "WebSocket", "connect", [ this.socket_id, url, options ]);
 }
 
 WebSocket.prototype = {
   send: function (data) {
-    exec(function () {}, function () {}, "WebSocket", "send", [ data ]);
+    if (this.readyState == WebSocket.CLOSED ||
+        this.readyState == WebSocket.CLOSING) {
+      return;
+    }
+
+    exec(function () {}, function () {}, "WebSocket", "send", [ this.socket_id, data ]);
   },
 
   close: function () {
@@ -32,7 +41,7 @@ WebSocket.prototype = {
     }
 
     this.readyState = WebSocket.CLOSING;
-    exec(function () {}, function () {}, "WebSocket", "close", []);
+    exec(function () {}, function () {}, "WebSocket", "close", [ this.socket_id ]);
   },
 
   addEventListener: function (type, listener, useCapture) {
@@ -73,6 +82,10 @@ WebSocket.prototype = {
       event = this._createMessageEvent("message", event.data) :
       event = this._createSimpleEvent(event.type);
     this.dispatchEvent(event);
+    if (event.readyState == WebSocket.CLOSING || event.readyState == WebSocket.CLOSED) {
+      // cleanup socket from internal map
+      exec(function () {}, function () {}, "WebSocket", "close", [ this.socket_id ]);
+    }
   },
 
   _createSimpleEvent: function (type) {
