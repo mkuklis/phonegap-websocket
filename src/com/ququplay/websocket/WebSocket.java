@@ -86,7 +86,10 @@ public class WebSocket extends CordovaPlugin {
         this.headers = this.getHeaders(options);
         this.setRcvBufSize(options);
         
-        this.socketClient = new CordovaClient(this.uri, this.draft, this.headers, callbackContext);
+        this.socketClient = new CordovaClient(this.uri, this.draft, this.headers,
+          options.optBoolean("allowSelfSignedCertificates", false),
+          options.optBoolean("allowExpiredCertificates", false),
+          callbackContext);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
