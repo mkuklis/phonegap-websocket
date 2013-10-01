@@ -44,32 +44,32 @@ public class WebSocket extends CordovaPlugin {
     final WebSocket plugin = this;
 
     if (ACTION_CONNECT.equals(action)) {
-      final String socket_id = args.getString(0);
+      final String socketId = args.getString(0);
       final String url = args.getString(1);
       final JSONObject options = args.getJSONObject(2);
       
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.connect(socket_id, url, callbackContext, options);
+          plugin.connect(socketId, url, callbackContext, options);
         }
       });
       return true;
     }
     else if (ACTION_SEND.equals(action)) {
-      final String socket_id = args.getString(0);
+      final String socketId = args.getString(0);
       final String data = args.getString(1);
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          plugin.send(socket_id, data);
+          plugin.send(socketId, data);
         }
       });
       return true;
     }
     else if (ACTION_CLOSE.equals(action)) {
-      final String socket_id = args.getString(0);
+      final String socketId = args.getString(0);
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
-          final CordovaClient client = clients.remove(socket_id);
+          final CordovaClient client = clients.remove(socketId);
           if (client != null) {
             client.close();
           }
@@ -81,7 +81,7 @@ public class WebSocket extends CordovaPlugin {
     return false;
   }
 
-  private void connect(String socket_id, String url, CallbackContext callbackContext, JSONObject options) {
+  private void connect(String socketId, String url, CallbackContext callbackContext, JSONObject options) {
 
     if (url != null && url.length() > 0) {
       try {
@@ -97,7 +97,7 @@ public class WebSocket extends CordovaPlugin {
         callbackContext.sendPluginResult(pluginResult);
         client.connect();
         
-        final CordovaClient prev = clients.put(socket_id, client);
+        final CordovaClient prev = clients.put(socketId, client);
         if (prev != null) {
           prev.close();
         }
@@ -157,8 +157,8 @@ public class WebSocket extends CordovaPlugin {
     catch (JSONException e) {}
   }
 
-  private void send(String socket_id, String data) {
-    final CordovaClient client = clients.get(socket_id);
+  private void send(String socketId, String data) {
+    final CordovaClient client = clients.get(socketId);
     if (data != null && data.length() > 0 &&
       client != null &&
       client.getConnection() != null &&
