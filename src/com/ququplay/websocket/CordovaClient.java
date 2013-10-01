@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
@@ -36,15 +37,23 @@ public class CordovaClient extends WebSocketClient {
     stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
   }
 
-  public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, CallbackContext callbackContext) {
+  public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, JSONObject options, CallbackContext callbackContext) {
     super(serverURI, draft, headers, 0);
     this.callbackContext = callbackContext;
     this.frameBuilder = new FramedataImpl1();
     
     if (serverURI.getScheme().equals("wss")) {
+      final boolean allowSelfSignedCertificates = options.optBoolean("allowSelfSignedCertificates", false);
+      final boolean allowExpiredCertificates = options.optBoolean("allowExpiredCertificates", false);
       try {
         SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, null, null);
+        final TrustManager[] tm;
+        if (allowSelfSignedCertificates || allowExpiredCertificates) {
+          tm = new TrustManager[]{new InsecureX509TrustManager(null, allowSelfSignedCertificates, allowExpiredCertificates)};
+        } else {
+          tm = null;
+        }
+        sslContext.init(null, tm, null);
         SSLSocketFactory factory = sslContext.getSocketFactory();
         this.setSocket(factory.createSocket());
       } catch (Exception e) {
