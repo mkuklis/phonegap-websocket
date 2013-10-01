@@ -37,12 +37,14 @@ public class CordovaClient extends WebSocketClient {
     stateMap.put(READYSTATE.NOT_YET_CONNECTED, 3);
   }
 
-  public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, boolean allowSelfSignedCertificates, boolean allowExpiredCertificates, CallbackContext callbackContext) {
+  public CordovaClient(URI serverURI, Draft draft, Map<String, String> headers, JSONObject options, CallbackContext callbackContext) {
     super(serverURI, draft, headers, 0);
     this.callbackContext = callbackContext;
     this.frameBuilder = new FramedataImpl1();
     
     if (serverURI.getScheme().equals("wss")) {
+      final boolean allowSelfSignedCertificates = options.optBoolean("allowSelfSignedCertificates", false);
+      final boolean allowExpiredCertificates = options.optBoolean("allowExpiredCertificates", false);
       try {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         final TrustManager[] tm;
