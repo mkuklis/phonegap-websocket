@@ -12,7 +12,7 @@ var WebSocket = function (url, options) {
   this.options = options;
   this.url = url;
   this.readyState = WebSocket.CONNECTING;
-  this.socket_id = "_cordova_websocket_" + _websocket_id;
+  this.socketId = "_cordova_websocket_" + _websocket_id;
   _websocket_id += 1;
   
   exec(
@@ -21,7 +21,7 @@ var WebSocket = function (url, options) {
     },
     function (event) {
       socket._handleEvent(event);
-    }, "WebSocket", "connect", [ this.socket_id, url, options ]);
+    }, "WebSocket", "connect", [ this.socketId, url, options ]);
 }
 
 WebSocket.prototype = {
@@ -31,7 +31,7 @@ WebSocket.prototype = {
       return;
     }
 
-    exec(function () {}, function () {}, "WebSocket", "send", [ this.socket_id, data ]);
+    exec(function () {}, function () {}, "WebSocket", "send", [ this.socketId, data ]);
   },
 
   close: function () {
@@ -41,7 +41,7 @@ WebSocket.prototype = {
     }
 
     this.readyState = WebSocket.CLOSING;
-    exec(function () {}, function () {}, "WebSocket", "close", [ this.socket_id ]);
+    exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
   },
 
   addEventListener: function (type, listener, useCapture) {
@@ -84,7 +84,7 @@ WebSocket.prototype = {
     this.dispatchEvent(event);
     if (event.readyState == WebSocket.CLOSING || event.readyState == WebSocket.CLOSED) {
       // cleanup socket from internal map
-      exec(function () {}, function () {}, "WebSocket", "close", [ this.socket_id ]);
+      exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
     }
   },
 
