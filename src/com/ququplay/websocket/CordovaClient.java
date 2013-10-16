@@ -9,9 +9,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PluginResult;
-import org.apache.cordova.PluginResult.Status;
+import org.apache.cordova.api.CallbackContext;
+import org.apache.cordova.api.PluginResult;
+import org.apache.cordova.api.PluginResult.Status;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.exceptions.InvalidFrameException;
@@ -119,10 +119,5 @@ public class CordovaClient extends WebSocketClient {
     }
 
     return null;
-  }
-
-  @Override
-  public String getResourceDescriptor() {
-    return "*";
   }
 }

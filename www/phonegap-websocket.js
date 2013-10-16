@@ -1,5 +1,3 @@
-var exec = require('cordova/exec');
-
 var _websocket_id = 0;
 
 // Websocket constructor
@@ -15,7 +13,7 @@ var WebSocket = function (url, options) {
   this.socketId = "_cordova_websocket_" + _websocket_id;
   _websocket_id += 1;
   
-  exec(
+  cordova.exec(
     function (event) {
       socket._handleEvent(event);
     },
@@ -31,7 +29,7 @@ WebSocket.prototype = {
       return;
     }
 
-    exec(function () {}, function () {}, "WebSocket", "send", [ this.socketId, data ]);
+    cordova.exec(function () {}, function () {}, "WebSocket", "send", [ this.socketId, data ]);
   },
 
   close: function () {
@@ -41,7 +39,7 @@ WebSocket.prototype = {
     }
 
     this.readyState = WebSocket.CLOSING;
-    exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
+    cordova.exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
   },
 
   addEventListener: function (type, listener, useCapture) {
@@ -84,7 +82,7 @@ WebSocket.prototype = {
     this.dispatchEvent(event);
     if (event.readyState == WebSocket.CLOSING || event.readyState == WebSocket.CLOSED) {
       // cleanup socket from internal map
-      exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
+      cordova.exec(function () {}, function () {}, "WebSocket", "close", [ this.socketId ]);
     }
   },
 
@@ -109,7 +107,3 @@ WebSocket.prototype.CONNECTING = WebSocket.CONNECTING = 0;
 WebSocket.prototype.OPEN = WebSocket.OPEN = 1;
 WebSocket.prototype.CLOSING = WebSocket.CLOSING = 2;
 WebSocket.prototype.CLOSED = WebSocket.CLOSED = 3;
-
-if (module.exports) {
-  module.exports = WebSocket;
-}
