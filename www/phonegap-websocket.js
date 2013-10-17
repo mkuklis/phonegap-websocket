@@ -1,10 +1,35 @@
 var _websocket_id = 0;
 
 // Websocket constructor
-var WebSocket = function (url, options) {
+var WebSocket = function(url, opt1, opt2) {
   var socket = this;
   
-  options || (options = {});
+	var protocols = null;
+	var options = opt2 ? opt2 : {};
+	if (typeof opt1 === "string") {
+
+		protocols = opt1.trim();
+
+	} else if (Array.isArray(opt1)) {
+
+		for ( var i = 0; i < opt1.length; i++) {
+
+			if (i > 0) {
+
+				protocols += ", ";
+			}
+			protocols += opt1[i].trim();
+		}
+
+	} else if (opt1 !== null && typeof opt1 === "object") {
+
+		options = opt1;
+	}
+	if (protocols !== null) {
+
+		options.headers || (options.headers = {});
+		options.headers["Sec-WebSocket-Protocol"] = protocols;
+	}
 
   this.events = [];
   this.options = options;
@@ -20,7 +45,7 @@ var WebSocket = function (url, options) {
     function (event) {
       socket._handleEvent(event);
     }, "WebSocket", "connect", [ this.socketId, url, options ]);
-}
+};
 
 WebSocket.prototype = {
   send: function (data) {
@@ -28,7 +53,19 @@ WebSocket.prototype = {
         this.readyState == WebSocket.CLOSING) {
       return;
     }
+	if (data instanceof ArrayBuffer) {
+		
+		data = this._arrayBufferToArray(data);
 
+	} else if (data instanceof Blob) {
+
+		var reader = new FileReader();
+		reader.onloadend = function() {
+			this.send(reader.result);
+		}.bind(this);
+		reader.readAsArrayBuffer(data);
+		return;
+	}
     cordova.exec(function () {}, function () {}, "WebSocket", "send", [ this.socketId, data ]);
   },
 
@@ -76,9 +113,19 @@ WebSocket.prototype = {
 
   _handleEvent: function (event) {
     this.readyState = event.readyState;
-    event = (event.type == "message") ?
-      event = this._createMessageEvent("message", event.data) :
-      event = this._createSimpleEvent(event.type);
+	if (event.type == "message") {
+
+		event = this._createMessageEvent("message", event.data);
+
+	} else if (event.type == "messageBinary") {
+
+		var result = this._arrayToBinaryType(event.data, this.binaryType);
+		event = this._createBinaryMessageEvent("message", result);
+
+	} else {
+
+		event = this._createSimpleEvent(event.type);
+	}
     this.dispatchEvent(event);
     if (event.readyState == WebSocket.CLOSING || event.readyState == WebSocket.CLOSED) {
       // cleanup socket from internal map
@@ -100,7 +147,51 @@ WebSocket.prototype = {
     event.initMessageEvent("message", false, false, data, null, null, window, null);
 
     return event;
-  }
+  },
+  
+	_createBinaryMessageEvent : function(type, data) {
+
+		// This does not match the WebSocket spec. The Event is suppose to be a
+		// MessageEvent. But in Android WebView, MessageEvent.initMessageEvent() 
+		// makes a mess of ArrayBuffers.  This should work with most clients, as
+		// long as they don't do something odd with the event.  The type is 
+		// correctly set to "message", so client event routing logic should work.
+		var event = document.createEvent("Event");
+
+		event.initEvent("message", false, false);
+		event.data = data;
+		return event;
+	},
+  
+	_arrayBufferToArray : function(arrayBuffer) {
+
+		var output = [];
+		var utf8arr = new Uint8Array(arrayBuffer);
+		for ( var i = 0; i < utf8arr.length; i++) {
+
+			output.push(utf8arr[i]);
+		}
+		return output;
+	},
+	
+	_arrayToBinaryType : function(array, binaryType) {
+		
+		var result = null;
+		var typedArr = new Uint8Array(array.length);
+		typedArr.set(array);
+		
+		if (binaryType === "arraybuffer") {
+
+			result = typedArr.buffer;
+
+		} else if (binaryType === "blob") {
+			
+			var builder = new WebKitBlobBuilder();
+			builder.append(typedArr.buffer);
+			result = builder.getBlob("application/octet-stream");
+		}
+		return result;
+	}
 };
 
 WebSocket.prototype.CONNECTING = WebSocket.CONNECTING = 0;

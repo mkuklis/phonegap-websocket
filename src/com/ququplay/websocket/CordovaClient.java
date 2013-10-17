@@ -1,6 +1,7 @@
 package com.ququplay.websocket;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.java_websocket.framing.FrameBuilder;
 import org.java_websocket.framing.Framedata;
 import org.java_websocket.framing.FramedataImpl1;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,6 +74,13 @@ public class CordovaClient extends WebSocketClient {
     sendResult(message, "message", PluginResult.Status.OK);
   }
   
+	@Override
+	public void onMessage(ByteBuffer bytes) {
+
+		JSONArray jsonArr = Utils.byteArrayToJSONArray(bytes.array());
+		sendResult(jsonArr, "messageBinary", PluginResult.Status.OK);
+	}
+
   @Override
   public void onFragment(Framedata frame) {
     try {
@@ -79,8 +88,15 @@ public class CordovaClient extends WebSocketClient {
 
 	    // last frame?
 	    if (frame.isFin()) {
-	      byte[] bytes = this.frameBuilder.getPayloadData().array();
-	      this.onMessage(new String( bytes, Charset.forName("UTF-8") ));
+			ByteBuffer bytes = this.frameBuilder.getPayloadData();
+
+			if (this.frameBuilder.getOpcode() == Framedata.Opcode.BINARY) {
+
+				this.onMessage(bytes);
+
+			} else {
+	      this.onMessage(new String( bytes.array(), Charset.forName("UTF-8") ));
+		}
 	      this.frameBuilder.getPayloadData().clear();
 	    }
 	    
@@ -97,14 +113,14 @@ public class CordovaClient extends WebSocketClient {
     sendResult(ex.getMessage(), "error", PluginResult.Status.ERROR);
   }
 
-  private void sendResult(String message, String type, Status status) {
+  private void sendResult(Object message, String type, Status status) {
     JSONObject event = createEvent(message, type);
     PluginResult pluginResult = new PluginResult(status, event);
     pluginResult.setKeepCallback(true);
     this.callbackContext.sendPluginResult(pluginResult);
   }
 
-  private JSONObject createEvent(String data, String type) {
+  private JSONObject createEvent(Object data, String type) {
     JSONObject event;
 
     try {
@@ -117,7 +133,6 @@ public class CordovaClient extends WebSocketClient {
     catch (JSONException e) {
       e.printStackTrace();
     }
-
     return null;
   }
 }
