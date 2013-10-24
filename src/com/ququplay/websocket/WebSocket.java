@@ -57,7 +57,7 @@ public class WebSocket extends CordovaPlugin {
     }
     else if (ACTION_SEND.equals(action)) {
       final String socketId = args.getString(0);
-      final String data = args.getString(1);
+      final Object data = args.get(1);
       cordova.getThreadPool().execute(new Runnable() {
         public void run() {
           plugin.send(socketId, data);
@@ -157,13 +157,28 @@ public class WebSocket extends CordovaPlugin {
     catch (JSONException e) {}
   }
 
-  private void send(String socketId, String data) {
-    final CordovaClient client = clients.get(socketId);
-    if (data != null && data.length() > 0 &&
-      client != null &&
-      client.getConnection() != null &&
-      client.getConnection().isOpen()) {
-      client.send(data);
-    }
-  }
+	private void send(String socketId, Object data) {
+		try {
+			final CordovaClient client = clients.get(socketId);
+			if (data != null && client != null
+					&& client.getConnection() != null
+					&& client.getConnection().isOpen()) {
+
+				if (data instanceof JSONArray
+						&& ((JSONArray) data).length() > 0) {
+
+					byte decoded[] = Utils
+							.jsonArrayToByteArray((JSONArray) data);
+					client.send(decoded);
+
+				} else if (data instanceof String
+						&& ((String) data).length() > 0) {
+
+					client.send((String) data);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 }
