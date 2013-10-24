@@ -9,11 +9,11 @@ The plugin works well with [socket.io](http://socket.io/).
 
 1. Copy `src/*` folder under your project's `src`
 2. Copy `libs/java_websocket.jar` under your project's `libs`
-3. Copy `assets/www/phonegap-websocket.js` unders your project's `assets/www/` and make sure it's included in your `index.html`
+3. Copy `www/phonegap-websocket.js` unders your project's `assets/www/` and make sure it's included in your `index.html`
 4. add plugin definition to res/xml/config.xml
 
 ```xml
-  <plugin name="WebSocket" value="com.phonegap.plugins.websocket.WebSocket" />
+  <plugin name="WebSocket" value="com.ququplay.websocket.WebSocket" />
 ```
 
 ## Demo
