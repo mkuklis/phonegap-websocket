@@ -95,7 +95,7 @@ WebSocket.prototype = {
     this.readyState = event.readyState;
 
     if (event.type == "message") {
-      event = this.createMessageEvent("message", event.data);
+      event = createMessageEvent("message", event.data);
     } 
     else if (event.type == "messageBinary") {
       var result = arrayToBinaryType(event.data, this.binaryType);
