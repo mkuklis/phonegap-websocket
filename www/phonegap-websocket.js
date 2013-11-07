@@ -1,7 +1,14 @@
+var usingCordovaWebSocket = false;
+
+window.WebSocket || (function() {
+	
+usingCordovaWebSocket = true;
+
 var websocketId = 0;
 
 // Websocket constructor
-var WebSocket = function(url, protocols, options) {
+window.WebSocket = function(url, protocols, options) {
+		
   var socket = this;
   options || (options = {});
   options.headers || (options.headers = {});
@@ -180,4 +187,6 @@ function arrayToBinaryType(array, binaryType) {
 
 Array.isArray = Array.isArray || function (args) {
   return Object.prototype.toString.call(args) === "[object Array]";
-}
+};
+
+}());
