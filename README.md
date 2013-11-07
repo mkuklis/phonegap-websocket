@@ -3,7 +3,7 @@
 Phonegap plugin which adds support for websockets under Android.
 The websocket client is based on [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket).
 
-The plugin works well with [socket.io](http://socket.io/).
+The plugin works well with [socket.io](http://socket.io/) and other WebSocket libraries.
 
 Compatible with PhoneGap 3.0.x and installable via the PhoneGap (or Cordova) CLI.
 
