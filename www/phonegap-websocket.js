@@ -184,5 +184,15 @@ window.WebSocket || (function() {
   Array.isArray = Array.isArray || function (args) {
     return Object.prototype.toString.call(args) === "[object Array]";
   };
+  
+  window.ArrayBuffer = window.ArrayBuffer || function() {
+	  
+	  throw "ArrayBuffer not supported on this platform";
+  };
+  
+  window.Blob = window.Blob || function() {
+	  
+	  throw "Blob not supported on this platform";
+  };
 
 }());
