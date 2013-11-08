@@ -40,6 +40,7 @@ If you plan to run it from your phone please make sure to update your `config.xm
 * [@remy](http://github.com/remy)
 * [@fancycode](http://github.com/fancycode)
 * [@dhuyvett](http://github.com/dhuyvett)
+* [@eliseumds](http://github.com/eliseumds)
 
 ##License:
 
