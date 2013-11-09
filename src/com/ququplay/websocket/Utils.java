@@ -27,20 +27,21 @@ public class Utils {
       throws JSONException {
 
     byte result[] = new byte[data.length()];
+    
     for (int i = 0; i < data.length(); i++) {
-
       result[i] = (byte) data.getInt(i);
     }
+
     return result;
   }
 
   public static JSONArray byteArrayToJSONArray(byte data[]) {
-
     JSONArray result = new JSONArray();
-    for (int i = 0; i < data.length; i++) {
 
+    for (int i = 0; i < data.length; i++) {
       result.put((int) data[i]);
     }
+
     return result;
   }
 }

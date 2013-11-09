@@ -160,24 +160,27 @@ public class WebSocket extends CordovaPlugin {
 	private void send(String socketId, Object data) {
 		try {
 			final CordovaClient client = clients.get(socketId);
-			if (data != null && client != null
-					&& client.getConnection() != null
-					&& client.getConnection().isOpen()) {
 
-				if (data instanceof JSONArray
-						&& ((JSONArray) data).length() > 0) {
+			if (data != null && client != null && 
+        client.getConnection() != null && 
+        client.getConnection().isOpen()) {
+
+				if (data instanceof JSONArray && 
+          ((JSONArray) data).length() > 0) {
 
 					byte decoded[] = Utils
 							.jsonArrayToByteArray((JSONArray) data);
 					client.send(decoded);
 
-				} else if (data instanceof String
-						&& ((String) data).length() > 0) {
+				} 
+        else if (data instanceof String && 
+          ((String) data).length() > 0) {
 
 					client.send((String) data);
 				}
 			}
-		} catch (JSONException e) {
+		} 
+    catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}

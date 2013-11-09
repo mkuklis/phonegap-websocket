@@ -85,22 +85,21 @@ public class CordovaClient extends WebSocketClient {
   public void onFragment(Framedata frame) {
     try {
       this.frameBuilder.append(frame);
+      
+      if (frame.isFin()) {
+        ByteBuffer bytes = this.frameBuilder.getPayloadData();
 
-	    // last frame?
-	    if (frame.isFin()) {
-	        ByteBuffer bytes = this.frameBuilder.getPayloadData();
-	    
-	        if (this.frameBuilder.getOpcode() == Framedata.Opcode.BINARY) {
-	    	
-	          this.onMessage(bytes);
-	    
-	        } else {
-	          this.onMessage(new String( bytes.array(), Charset.forName("UTF-8") ));
-	      }
-	      this.frameBuilder.getPayloadData().clear();
-	    }
-	    
-    } catch (InvalidFrameException e) {}
+        if (this.frameBuilder.getOpcode() == Framedata.Opcode.BINARY) {
+          this.onMessage(bytes);
+        } 
+        else {
+          this.onMessage(new String(bytes.array(), "UTF-8"));
+        }
+
+        this.frameBuilder.getPayloadData().clear();
+      }
+    } 
+    catch (Exception e) {} 
   }
 
   @Override
