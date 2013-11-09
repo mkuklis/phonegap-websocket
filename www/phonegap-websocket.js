@@ -173,9 +173,20 @@ window.WebSocket || (function() {
       result = typedArr.buffer;
     } 
     else if (binaryType === "blob") { 
-      var builder = new WebKitBlobBuilder();
-      builder.append(typedArr.buffer);
-      result = builder.getBlob("application/octet-stream");
+    	
+    	if (window.WebKitBlobBuilder) {
+
+    	      var builder = new WebKitBlobBuilder();
+    	      builder.append(typedArr.buffer);
+    	      result = builder.getBlob("application/octet-stream");
+
+    	} else {
+
+    		result = new Blob([ bytearray ], {
+    			type : 'application/octet-stream'
+    		});
+    	}
+
     }
 
     return result;
