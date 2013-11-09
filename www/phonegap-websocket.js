@@ -1,10 +1,10 @@
 window.WebSocket || (function() {
-	
+  
   var websocketId = 0;
 
   // Websocket constructor
   window.WebSocket = function(url, protocols, options) {
-  		
+      
     var socket = this;
     options || (options = {});
     options.headers || (options.headers = {});
@@ -166,27 +166,27 @@ window.WebSocket || (function() {
     
   function arrayToBinaryType(array, binaryType) {   
     var result = null;
+
+    if (!array || !array.length) return result;
+
     var typedArr = new Uint8Array(array.length);
+
     typedArr.set(array);
     
     if (binaryType === "arraybuffer") {
       result = typedArr.buffer;
     } 
     else if (binaryType === "blob") { 
-    	
-    	if (window.WebKitBlobBuilder) {
-
-    	      var builder = new WebKitBlobBuilder();
-    	      builder.append(typedArr.buffer);
-    	      result = builder.getBlob("application/octet-stream");
-
-    	} else {
-
-    		result = new Blob([ bytearray ], {
-    			type : 'application/octet-stream'
-    		});
-    	}
-
+      if (window.WebKitBlobBuilder) {
+        var builder = new WebKitBlobBuilder();
+        builder.append(typedArr.buffer);
+        result = builder.getBlob("application/octet-stream");
+      } 
+      else {
+        result = new Blob([ bytearray ], {
+          type: 'application/octet-stream'
+        });
+      }
     }
 
     return result;
@@ -194,16 +194,14 @@ window.WebSocket || (function() {
 
   Array.isArray = Array.isArray || function (args) {
     return Object.prototype.toString.call(args) === "[object Array]";
-  };
+  }
   
-  window.ArrayBuffer = window.ArrayBuffer || function() {
-	  
-	  throw "ArrayBuffer not supported on this platform";
-  };
+  window.ArrayBuffer = window.ArrayBuffer || function () {
+    throw "ArrayBuffer not supported on this platform";
+  }
   
-  window.Blob = window.Blob || function() {
-	  
-	  throw "Blob not supported on this platform";
-  };
+  window.Blob = window.Blob || function () {
+    throw "Blob not supported on this platform";
+  }
 
 }());

@@ -75,33 +75,34 @@ public class CordovaClient extends WebSocketClient {
     sendResult(message, "message", PluginResult.Status.OK);
   }
   
-	@Override
-	public void onMessage(ByteBuffer bytes) {
+  @Override
+  public void onMessage(ByteBuffer bytes) {
 
-		JSONArray jsonArr = Utils.byteArrayToJSONArray(bytes.array());
-		sendResult(jsonArr, "messageBinary", PluginResult.Status.OK);
-	}
+    JSONArray jsonArr = Utils.byteArrayToJSONArray(bytes.array());
+    sendResult(jsonArr, "messageBinary", PluginResult.Status.OK);
+  }
 
   @Override
   public void onFragment(Framedata frame) {
     try {
       this.frameBuilder.append(frame);
+      
+      if (frame.isFin()) {
+        ByteBuffer bytes = this.frameBuilder.getPayloadData();
 
-	    // last frame?
-	    if (frame.isFin()) {
-			ByteBuffer bytes = this.frameBuilder.getPayloadData();
+        if (this.frameBuilder.getOpcode() == Framedata.Opcode.BINARY) {
+          this.onMessage(bytes);
+        } 
+        else {
+          this.onMessage(new String(bytes.array(), "UTF-8"));
+        }
 
-			if (this.frameBuilder.getOpcode() == Framedata.Opcode.BINARY) {
+        this.frameBuilder.getPayloadData().clear();
+      }
+    } 
+    catch (Exception e) {
 
-				this.onMessage(bytes);
-
-			} else {
-	      this.onMessage(new String( bytes.array(), "UTF-8" ));
-		}
-	      this.frameBuilder.getPayloadData().clear();
-	    }
-	    
-    } catch (InvalidFrameException e) {} catch (UnsupportedEncodingException e) {}
+    } 
   }
 
   @Override
