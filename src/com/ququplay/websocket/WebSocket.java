@@ -16,6 +16,7 @@ import org.java_websocket.WebSocketImpl;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.webkit.CookieManager;
 
 /**
  * WebSocket Cordova Plugin
@@ -89,6 +90,7 @@ public class WebSocket extends CordovaPlugin {
         this.draft = this.getDraft(options, callbackContext);
         this.headers = this.getHeaders(options);
         this.setRcvBufSize(options);
+        this.setCookie();
         
         final CordovaClient client = new CordovaClient(this.uri, this.draft, this.headers,
           options, callbackContext);
@@ -155,6 +157,15 @@ public class WebSocket extends CordovaPlugin {
       }
     } 
     catch (JSONException e) {}
+  }
+  
+  private void setCookie() {    
+    CookieManager cookieManager = CookieManager.getInstance();
+  	String cookie = cookieManager.getCookie(this.uri.getHost());
+  	
+    if (cookie != null) {
+    	this.headers.put("cookie", cookie);
+    }
   }
 
 	private void send(String socketId, Object data) {
