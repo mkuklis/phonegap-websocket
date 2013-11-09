@@ -10,7 +10,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_10;
+import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.WebSocketImpl;
 
 import org.json.JSONArray;
@@ -114,7 +114,7 @@ public class WebSocket extends CordovaPlugin {
   private Draft getDraft(JSONObject options, CallbackContext callbackContext) {
 
     String draftName;
-    Draft draft = new Draft_10();
+    Draft draft = new Draft_17();
         
     try {
       draftName = options.getString("draft");
