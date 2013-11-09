@@ -25,6 +25,9 @@ The plugin works well with [socket.io](http://socket.io/).
 If you plan to test it locally from your emulator please make sure to use `10.0.2.2` ip address when connecting to your 
 local server.
 
+On Android 2.x a Typed Array polyfill is required to send or receive ArrayBuffer data.  Sending and receiving Blob data 
+is not supported on Android 2.x
+
 ##License:
 <pre>
 The MIT License
