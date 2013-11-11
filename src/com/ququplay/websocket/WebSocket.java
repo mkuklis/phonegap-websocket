@@ -161,38 +161,38 @@ public class WebSocket extends CordovaPlugin {
   
   private void setCookie() {    
     CookieManager cookieManager = CookieManager.getInstance();
-  	String cookie = cookieManager.getCookie(this.uri.getHost());
-  	
+    String cookie = cookieManager.getCookie(this.uri.getHost());
+    
     if (cookie != null) {
-    	this.headers.put("cookie", cookie);
+      this.headers.put("cookie", cookie);
     }
   }
 
-	private void send(String socketId, Object data) {
-		try {
-			final CordovaClient client = clients.get(socketId);
+  private void send(String socketId, Object data) {
+    try {
+      final CordovaClient client = clients.get(socketId);
 
-			if (data != null && client != null && 
+      if (data != null && client != null && 
         client.getConnection() != null && 
         client.getConnection().isOpen()) {
 
-				if (data instanceof JSONArray && 
+        if (data instanceof JSONArray && 
           ((JSONArray) data).length() > 0) {
 
-					byte decoded[] = Utils
-							.jsonArrayToByteArray((JSONArray) data);
-					client.send(decoded);
+          byte decoded[] = Utils
+              .jsonArrayToByteArray((JSONArray) data);
+          client.send(decoded);
 
-				} 
+        } 
         else if (data instanceof String && 
           ((String) data).length() > 0) {
 
-					client.send((String) data);
-				}
-			}
-		} 
+          client.send((String) data);
+        }
+      }
+    } 
     catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
+      e.printStackTrace();
+    }
+  }
 }
