@@ -10,7 +10,7 @@ window.WebSocket || (function() {
     options.headers || (options.headers = {});
 
     if (Array.isArray(protocols)) {
-      protocols = procotols.join(',');
+      protocols = protocols.join(',');
     }
     
     if (protocols) {
