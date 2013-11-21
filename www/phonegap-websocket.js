@@ -206,8 +206,8 @@ window.WebSocket || (function() {
     throw "Blob not supported on this platform";
   }
 
-  if (typeof module != 'undefined' && module.exports) {
-    module.exports = WebSocket;
-  }
-  
 }());
+
+if (typeof module != 'undefined' && module.exports) {
+  module.exports = window.WebSocket;
+}
