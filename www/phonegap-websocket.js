@@ -7,7 +7,7 @@ function hasWebSocket() {
     var x = parseInt(m[1], 10);
     var y = parseInt(m[2], 10);
 
-    return (x > 4 || (x == 4 && y >= 4));
+    return window.WebSocket && (x > 4 || (x == 4 && y >= 4));
   }
 
   return false;
