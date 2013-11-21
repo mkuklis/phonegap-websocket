@@ -5,7 +5,7 @@ window.WebSocket || (function() {
   var websocketId = 0;
 
   // Websocket constructor
-  var Websocket = window.WebSocket = function(url, protocols, options) {
+  var WebSocket = window.WebSocket = function(url, protocols, options) {
       
     var socket = this;
     options || (options = {});
