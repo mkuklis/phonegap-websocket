@@ -1,6 +1,19 @@
 var exec = require('cordova/exec');
 
-window.WebSocket || (function() {
+function hasWebSocket() {
+  var m = navigator.userAgent.match(/Android ([0-9]+)\.([0-9]+)/i);
+
+  if (m) {
+    var x = parseInt(m[1], 10);
+    var y = parseInt(m[2], 10);
+
+    return (x > 4 || (x == 4 && y >= 4));
+  }
+
+  return false;
+}
+
+hasWebSocket() || (function() {
   
   var websocketId = 0;
 
@@ -211,3 +224,4 @@ window.WebSocket || (function() {
 if (typeof module != 'undefined' && module.exports) {
   module.exports = window.WebSocket;
 }
+
