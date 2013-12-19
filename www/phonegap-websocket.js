@@ -1,16 +1,15 @@
 var exec = require('cordova/exec');
 
 function hasWebSocket() {
-  var m = navigator.userAgent.match(/Android ([0-9]+)\.([0-9]+)/i);
+  var m = /Android ([0-9]+)\.([0-9]+)/i.exec(navigator.userAgent);
+  var hasConstructor = typeof WebSocket === "function";
 
-  if (m) {
-    var x = parseInt(m[1], 10);
-    var y = parseInt(m[2], 10);
+  if (!m) { return hasConstructor; }
 
-    return window.WebSocket && (x > 4 || (x == 4 && y >= 4));
-  }
+  var x = parseInt(m[1], 10);
+  var y = parseInt(m[2], 10);
 
-  return false;
+  return hasConstructor && (x > 4 || (x === 4 && y >= 4));
 }
 
 hasWebSocket() || (function() {
