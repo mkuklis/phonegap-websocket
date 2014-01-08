@@ -6,7 +6,7 @@ The websocket client is based on [Java-WebSocket](https://github.com/TooTallNate
 ## Features
 
 * supports multiple [protocols / drafts](https://github.com/TooTallNate/Java-WebSocket/wiki/Drafts)
-* compatible with Phonegap 3.0.x and installable via PhoneGap (or Cordova) CLI.
+* compatible with Phonegap 3.x and installable via PhoneGap (or Cordova) CLI.
 * works well with  [socket.io](http://socket.io/) and other WebSocket libraries.
 * supports WSS
 * supports binary data 
