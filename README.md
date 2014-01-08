@@ -47,6 +47,7 @@ If you plan to run it from your phone please make sure to update your `config.xm
 * [@dhuyvett](http://github.com/dhuyvett)
 * [@eliseumds](http://github.com/eliseumds)
 * [@MayurChandra](http://github.com/MayurChandra)
+* [@rgillan](http://github.com/rgillan)
 
 ##License:
 
