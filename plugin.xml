@@ -33,7 +33,6 @@
             </feature>
         </config-file>
 
-        <source-file src="libs/java_websocket.jar" target-dir="libs" />
         <source-file src="src/com/ququplay/websocket/CordovaClient.java" target-dir="src/com/ququplay/websocket" />
         <source-file src="src/com/ququplay/websocket/InsecureX509TrustManager.java" target-dir="src/com/ququplay/websocket" />
         <source-file src="src/com/ququplay/websocket/WebSocket.java" target-dir="src/com/ququplay/websocket" />
