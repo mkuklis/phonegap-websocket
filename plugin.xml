@@ -16,7 +16,6 @@
 
     <author>Michal Kuklis</author>
 
-
     <engines>
         <engine name="cordova" version=">=3.0" />
     </engines>
