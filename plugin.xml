@@ -32,6 +32,8 @@
                 <param name="android-package" value="com.ququplay.websocket.WebSocket" />
             </feature>
         </config-file>
+        
+        <source-file src="src/org" target-dir="src/org" />
 
         <source-file src="src/com/ququplay/websocket/CordovaClient.java" target-dir="src/com/ququplay/websocket" />
         <source-file src="src/com/ququplay/websocket/InsecureX509TrustManager.java" target-dir="src/com/ququplay/websocket" />
