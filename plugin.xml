@@ -35,11 +35,5 @@
         
         <source-file src="src/org" target-dir="src" />
         <source-file src="src/com" target-dir="src" />
-        <!--
-        <source-file src="src/com/ququplay/websocket/CordovaClient.java" target-dir="src/com/ququplay/websocket" />
-        <source-file src="src/com/ququplay/websocket/InsecureX509TrustManager.java" target-dir="src/com/ququplay/websocket" />
-        <source-file src="src/com/ququplay/websocket/WebSocket.java" target-dir="src/com/ququplay/websocket" />
-        <source-file src="src/com/ququplay/websocket/Utils.java" target-dir="src/com/ququplay/websocket" />
-      -->
     </platform>
 </plugin>
