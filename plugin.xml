@@ -75,6 +75,10 @@
         <source-file src="src/org/java_websocket/handshake/ServerHandshake.java" target-dir="src/org/java_websocket/handshake" />
         <source-file src="src/org/java_websocket/handshake/ServerHandshakeBuilder.java" target-dir="src/org/java_websocket/handshake" />
 
+        <source-file src="src/org/java_websocket/server/DefaultSSLWebSocketServerFactory.java" target-dir="src/org/java_websocket/server" />
+        <source-file src="src/org/java_websocket/server/DefaultWebSocketServerFactory.java" target-dir="src/org/java_websocket/server" />
+        <source-file src="src/org/java_websocket/server/WebSocketServer.java" target-dir="src/org/java_websocket/server" />
+
         <source-file src="src/org/java_websocket/util/Base64.java" target-dir="src/org/java_websocket/util" />
         <source-file src="src/org/java_websocket/util/Charsetfunctions.java" target-dir="src/org/java_websocket/util" />
         
