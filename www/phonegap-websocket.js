@@ -108,6 +108,24 @@ hasWebSocket() || (function() {
     },
 
     _handleEvent: function (event) {
+      //FIX need to set readyState to 3 (CLOSED) manually here, in case
+      // the close-event was triggered!
+      //
+      // Explanation:
+      //
+      // The Java impl. changes readyState to 3 (CLOSED) only after the event-handler
+      // for the 'close' event returns (i.e. after notifying / triggering this function),
+      // BUT readyState should be CLOSED already here in the JavaScript impl., so that 
+      // on entering the WebSocket's onclose handler(s), the correct readyState 3 (CLOSED)
+      // is set / available!
+      //
+      // see e.g. 
+      // https://chromium.googlesource.com/external/w3c/web-platform-tests/+/Moz_Bug_819051_test/websockets/Secure-Close-readyState-Closed.htm
+      //
+      if(event.type == 'close'){
+        this.readyState = WebSocket.CLOSED;	
+      } else
+      //FIX: end.
       this.readyState = event.readyState;
 
       if (event.type == "message") {
