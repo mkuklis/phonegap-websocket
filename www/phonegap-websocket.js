@@ -100,11 +100,13 @@ hasWebSocket() || (function() {
       var events = this.events[event.type] || [];
 
       for (var i = 0, l = events.length; i < l; i++) {
-        events[i](event);
+        //FIX (russaa): call event handler in context of the WebSocket instance
+        events[i].call(this, event);
       }
 
       handler = this["on" + event.type];
-      if (handler) handler(event);
+      //FIX (russaa): call event handler in context of the WebSocket instance
+      if (handler) handler.call(this, event);
     },
 
     _handleEvent: function (event) {
