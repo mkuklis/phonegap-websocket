@@ -113,15 +113,24 @@ hasWebSocket() || (function() {
     _handleEvent: function (event) {
       this.readyState = event.readyState;
 
-      if (event.type == "message") {
+      switch (event.type) {
+      case "message":
         event = createMessageEvent("message", event.data);
-      } 
-      else if (event.type == "messageBinary") {
+        break;
+      case "messageBinary":
         var result = arrayToBinaryType(event.data, this.binaryType);
         event = createBinaryMessageEvent("message", result);
-      } 
-      else {
+        break;
+      case "close":
+        var reason = event.reason;
+        var code = event.code;
+        event = this._createSimpleEvent(event.type);
+        event.reason = reason;
+        event.code = code;
+        break;
+      default:
         event = createSimpleEvent(event.type);
+        break;
       }
       
       this.dispatchEvent(event);
